@@ -34,71 +34,74 @@ client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('ready', async () => {
+const fullPass = async () => {
 	const logChannel = client.guilds.cache
 		.get(config.guildID)
 		.channels.cache.get(config.logChannelID);
+	await logChannel.send('bt5 records');
+	sleep(5);
+	// Department channels
+	base('Course Subjects')
+		.select({
+			view: 'Grid view'
+		})
+		.eachPage(
+			function page(records, fetchNextPage) {
+				const data = [];
+				records.forEach(record => {
+					data.push({
+						channel: record.get('Discord Channel ID')
+					});
+				});
+				fetchNextPage();
 
+				data.map(d => {
+					d.channel.split(', ').map(async c => {
+						await logChannel.send('bt5 update <#' + c + '> teachers');
+						sleep(10);
+					});
+				});
+			},
+			async function done(err) {
+				if (err) {
+					console.error(err);
+				}
+			}
+		);
+
+	// Course channels
+	base('Course Catalog')
+		.select({
+			view: 'Grid view'
+		})
+		.eachPage(
+			function page(records, fetchNextPage) {
+				const data = [];
+				records.forEach(record => {
+					data.push({
+						channel: record.get('Discord Channel ID')
+					});
+				});
+				fetchNextPage();
+
+				data.map(d => {
+					d.channel.split(', ').map(async c => {
+						await logChannel.send('bt5 update <#' + c + '>');
+						sleep(10);
+					});
+				});
+			},
+			async function done(err) {
+				if (err) {
+					console.error(err);
+				}
+			}
+		);
+};
+
+client.on('ready', async () => {
 	setInterval(async () => {
-		await logChannel.send('bt5 records');
-
-		// Department channels
-		base('Course Subjects')
-			.select({
-				view: 'Grid view'
-			})
-			.eachPage(
-				function page(records, fetchNextPage) {
-					const data = [];
-					records.forEach(record => {
-						data.push({
-							channel: record.get('Discord Channel ID')
-						});
-					});
-					fetchNextPage();
-
-					data.map(d => {
-						d.channel.split(', ').map(async c => {
-							await logChannel.send('bt5 update <#' + c + '> teachers');
-							sleep(10);
-						});
-					});
-				},
-				async function done(err) {
-					if (err) {
-						console.error(err);
-					}
-				}
-			);
-
-		// Course channels
-		base('Course Catalog')
-			.select({
-				view: 'Grid view'
-			})
-			.eachPage(
-				function page(records, fetchNextPage) {
-					const data = [];
-					records.forEach(record => {
-						data.push({
-							channel: record.get('Discord Channel ID')
-						});
-					});
-					fetchNextPage();
-
-					data.map(d => {
-						d.channel.split(', ').map(async c => {
-							await logChannel.send('bt5 update <#' + c + '>');
-							sleep(10);
-						});
-					});
-				},
-				async function done(err) {
-					if (err) {
-						console.error(err);
-					}
-				}
-			);
+		await fullPass();
 	}, 21600000); // 6 hours
 });
 
@@ -160,6 +163,14 @@ client.on('message', async message => {
 			}
 
 			return message.channel.send('Invalid class channel.');
+		}
+
+		if (cmd === 'fullpass') {
+			if (message.channel.id == config.logChannelID) {
+				return fullPass();
+			}
+
+		  return message.channel.send('You can\'t do that here buddy.');
 		}
 	}
 });
