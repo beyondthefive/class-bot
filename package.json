@@ -1,7 +1,8 @@
 {
-  "name": "bt5-bot",
+  "name": "class-bot",
   "scripts": {
-    "start": "nodemon bot.js",
+    "dev": "nodemon bot.js",
+    "start": "node bot.js",
     "lint": "xo --fix"
   },
   "main": "bot.js",
