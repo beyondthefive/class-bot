@@ -26,6 +26,8 @@ const fullPass = async () => {
 		.channels.cache.get(config.logChannelID);
 	await logChannel.send('bt5 records');
 	sleep(5);
+	await logChannel.send('bt5 referralUpdate');
+	sleep(5);
 	// Department channels
 	base('Course Subjects')
 		.select({
