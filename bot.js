@@ -21,14 +21,14 @@ client.on('ready', () => {
 });
 
 const fullPass = async () => {
-	const logChannel = client.guilds.cache
+	const botChannel = client.guilds.cache
 		.get(config.guildID)
-		.channels.cache.get(config.logChannelID);
-	await logChannel.send('bt5 records');
+		.channels.cache.get(config.botChannelID);
+	await botChannel.send('bt5 records');
 	sleep(5);
-	await logChannel.send('bt5 referralUpdate');
+	await botChannel.send('bt5 referralUpdate');
 	sleep(5);
-	await logChannel.send('bt5 updateChannelStats');
+	await botChannel.send('bt5 updateChannelStats');
 	sleep(5);
 	// Department channels
 	base('Course Subjects')
@@ -47,7 +47,7 @@ const fullPass = async () => {
 
 				data.map(d => {
 					d.channel.split(', ').map(async c => {
-						await logChannel.send('bt5 update <#' + c + '> teachers');
+						await botChannel.send('bt5 update <#' + c + '> teachers');
 						sleep(10);
 					});
 				});
@@ -76,7 +76,7 @@ const fullPass = async () => {
 
 				data.map(d => {
 					d.channel.split(', ').map(async c => {
-						await logChannel.send('bt5 update <#' + c + '>');
+						await botChannel.send('bt5 update <#' + c + '>');
 						sleep(10);
 					});
 				});
@@ -156,11 +156,11 @@ client.on('message', async message => {
 		}
 
 		if (cmd === 'fullpass') {
-			if (message.channel.id == config.logChannelID) {
+			if (message.channel.id == config.botChannelID) {
 				return fullPass();
 			}
 
-		  return message.channel.send('You can\'t do that here buddy.');
+			return message.channel.send('You can\'t do that here buddy.');
 		}
 	}
 });
