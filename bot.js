@@ -28,6 +28,8 @@ const fullPass = async () => {
 	sleep(5);
 	await logChannel.send('bt5 referralUpdate');
 	sleep(5);
+	await logChannel.send('bt5 updateChannelStats');
+	sleep(5);
 	// Department channels
 	base('Course Subjects')
 		.select({
