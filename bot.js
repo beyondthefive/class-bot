@@ -26,9 +26,11 @@ const fullPass = async () => {
 		.channels.cache.get(config.botChannelID);
 	await botChannel.send('bt5 records');
 	sleep(5);
-	await botChannel.send('bt5 referralUpdate');
+	await botChannel.send('bt5 ru');
 	sleep(5);
 	await botChannel.send('bt5 updateChannelStats');
+	sleep(5);
+	await botChannel.send('bt5 records');
 	sleep(5);
 	// Department channels
 	base('Course Subjects')
