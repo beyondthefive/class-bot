@@ -144,6 +144,55 @@ const classPing = (message, channelID) => {
 		);
 };
 
+const cvtrole = message => {
+	base('Course Catalog')
+		.select({
+			view: 'Grid view'
+		})
+		.eachPage(
+			function page(records, fetchNextPage) {
+				const data = [];
+				records.forEach(record => {
+					data.push({
+						channel: record.get('Discord Channel ID').split(', '),
+						teachers: record.get('Teacher Discord User IDs'),
+						students: record.get('Student Discord User IDs')
+					});
+				});
+				fetchNextPage();
+
+				data.map(i => {
+					i.channel.map(c => {
+						if (c === '699723492085727363') {
+							// Covid data analysis
+							i.students.map(async s => {
+								const CVTDataAnalysisRole = message.guild.roles.cache.get(
+									'732626447612641402'
+								);
+								await message.guild.members
+									.fetch(s)
+									.roles.add(CVTDataAnalysisRole)
+									.catch(async error => {
+										await message.channel.send(
+											'Error assigning data analysis role to student.'
+										);
+									});
+							});
+							return message.channel.send(
+								'All COVID Data Analysis Students now have the CVT role.'
+							);
+						}
+					});
+				});
+			},
+			async function done(err) {
+				if (err) {
+					console.error(err);
+				}
+			}
+		);
+};
+
 client.on('message', async message => {
 	const contents = message.content.toLowerCase().split(' ');
 	const cmd = contents[1];
@@ -163,6 +212,14 @@ client.on('message', async message => {
 			}
 
 			return message.channel.send('You can\'t do that here buddy.');
+		}
+
+		if (cmd === 'cvtrole') {
+			if (message.member.roles.cache.has('731570576002646167')) {
+				return cvtrole(message);
+			}
+
+			return message.channel.send('You can\'t do that buddy.');
 		}
 	}
 });
