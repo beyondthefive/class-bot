@@ -30,6 +30,8 @@ const fullPass = async () => {
 	sleep(5);
 	await botChannel.send('bt5 updateChannelStats');
 	sleep(5);
+	await botChannel.send('bt5 cvtrole');
+	sleep(5);
 	await botChannel.send('bt5 records');
 	sleep(5);
 	// Department channels
@@ -215,7 +217,10 @@ client.on('message', async message => {
 		}
 
 		if (cmd === 'cvtrole') {
-			if (message.member.roles.cache.has('731570576002646167')) {
+			if (
+				message.member.roles.cache.has('731570576002646167') ||
+        message.channel.id == config.botChannelID
+			) {
 				return cvtrole(message);
 			}
 
