@@ -24,14 +24,15 @@ const fullPass = async () => {
 	const botChannel = client.guilds.cache
 		.get(config.guildID)
 		.channels.cache.get(config.botChannelID);
+	await botChannel.send('bt5 cvtrole');
+	sleep(60);
 	await botChannel.send('bt5 records');
 	sleep(5);
 	await botChannel.send('bt5 ru');
 	sleep(5);
 	await botChannel.send('bt5 updateChannelStats');
 	sleep(5);
-	await botChannel.send('bt5 cvtrole');
-	sleep(5);
+
 	await botChannel.send('bt5 records');
 	sleep(5);
 	// Department channels
@@ -165,23 +166,24 @@ const cvtrole = message => {
 
 				data.map(i => {
 					i.channel.map(c => {
-						if (c === '699723492085727363') {
+						if (c === '732419081285927003') {
 							// Covid data analysis
 							i.students.map(async s => {
 								const CVTDataAnalysisRole = message.guild.roles.cache.get(
-									'732626447612641402'
+									'732626447612641402' // Student role
 								);
-								await message.guild.members
-									.fetch(s)
+								await message.guild.members.cache
+									.get(s)
 									.roles.add(CVTDataAnalysisRole)
 									.catch(async error => {
 										await message.channel.send(
 											'Error assigning data analysis role to student.'
 										);
-									});
+				  });
+				  sleep(3);
 							});
 							return message.channel.send(
-								'All COVID Data Analysis Students now have the CVT role.'
+								'All COVID-19 Data Analysis Students now have the CVT role.'
 							);
 						}
 					});
