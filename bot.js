@@ -166,7 +166,7 @@ const cvtrole = message => {
 
 				data.map(i => {
 					i.channel.map(c => {
-						if (c === '732419081285927003') {
+						if (c === '735185467732918373') {
 							// Covid data analysis
 							i.students.map(async s => {
 								const CVTDataAnalysisRole = message.guild.roles.cache.get(
