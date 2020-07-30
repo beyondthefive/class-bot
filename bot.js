@@ -118,7 +118,7 @@ const classPing = (message, channelID) => {
 				fetchNextPage();
 
 				data.map(i => {
-					i.channel.map(c => {
+					i.channel.map(async c => {
 						if (c == channelID) {
 							let m = '';
 							const everyone = [...i.teachers, ...i.students];
@@ -129,6 +129,15 @@ const classPing = (message, channelID) => {
 								message.member.hasPermission('ADMINISTRATOR') ||
                 i.teachers.includes(message.author.id)
 							) {
+								if (m.length > 2000) {
+									const array = m.split(' ');
+									for (let i = 0; i < array.length; i += 18) {
+										await message.channel.send(array.slice(i, i + 18).join(' '));
+				  }
+
+				  return;
+								}
+
 								return message.channel.send(m);
 							}
 
@@ -179,8 +188,8 @@ const cvtrole = message => {
 										await message.channel.send(
 											'Error assigning data analysis role to student.'
 										);
-				  });
-				  sleep(3);
+									});
+								sleep(3);
 							});
 							return message.channel.send(
 								'All COVID-19 Data Analysis Students now have the CVT role.'
