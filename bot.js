@@ -38,7 +38,7 @@ const fullPass = async () => {
 	// Department channels
 	base('Course Subjects')
 		.select({
-			view: 'Grid view'
+			view: 'Published View'
 		})
 		.eachPage(
 			function page(records, fetchNextPage) {
