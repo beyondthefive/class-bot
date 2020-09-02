@@ -67,7 +67,7 @@ const fullPass = async () => {
 	// Course channels
 	base('Course Catalog')
 		.select({
-			view: 'Full View'
+			view: 'Grid view'
 		})
 		.eachPage(
 			function page(records, fetchNextPage) {
@@ -103,7 +103,7 @@ client.on('ready', async () => {
 const classPing = (message, channelID) => {
 	base('Course Catalog')
 		.select({
-			view: 'Full View'
+			view: 'Grid view'
 		})
 		.eachPage(
 			function page(records, fetchNextPage) {
@@ -159,7 +159,7 @@ const classPing = (message, channelID) => {
 const cvtrole = message => {
 	base('Course Catalog')
 		.select({
-			view: 'Full View'
+			view: 'Grid view'
 		})
 		.eachPage(
 			function page(records, fetchNextPage) {
